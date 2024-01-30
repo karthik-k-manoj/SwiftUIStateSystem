@@ -20,7 +20,7 @@ final class SwiftUIStateSystemTests: XCTestCase {
         XCTAssertEqual(button.title, "0")
         
         button.action()
-        node.needsRebuild = true
+        node.needsRebuild = true // TODO this should happen automatically
         node.rebuildIfNeeded()
         
         XCTAssertEqual(button.title, "1")
