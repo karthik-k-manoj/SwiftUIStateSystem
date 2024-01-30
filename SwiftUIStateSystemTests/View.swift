@@ -12,6 +12,12 @@ protocol View {
     var body: Body { get }
 }
 
+extension View {
+    func buildNodeTree(_ node: Node) {
+        
+    }
+}
+
 extension Never: View {
     var body: Never {
         fatalError("We should never reach this")
