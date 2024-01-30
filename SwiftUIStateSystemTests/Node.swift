@@ -14,7 +14,7 @@ final class Node {
     
     func rebuildIfNeeded() {
         if needsRebuild {
-            
+            view._buildNodeTree(self)
         }
     }
 }
