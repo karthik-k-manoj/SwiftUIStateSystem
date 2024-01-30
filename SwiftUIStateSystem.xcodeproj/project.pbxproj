@@ -18,6 +18,7 @@
 		DA8B79D82B6908C800239AE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79D72B6908C800239AE2 /* ContentView.swift */; };
 		DA8B79DA2B6909B400239AE2 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79D92B6909B400239AE2 /* Node.swift */; };
 		DA8B79DD2B69193700239AE2 /* BuiltinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79DC2B69193700239AE2 /* BuiltinView.swift */; };
+		DA8B79DF2B691D6B00239AE2 /* AnyBuiltinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79DE2B691D6B00239AE2 /* AnyBuiltinView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		DA8B79D72B6908C800239AE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DA8B79D92B6909B400239AE2 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		DA8B79DC2B69193700239AE2 /* BuiltinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltinView.swift; sourceTree = "<group>"; };
+		DA8B79DE2B691D6B00239AE2 /* AnyBuiltinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyBuiltinView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				DA8B79D72B6908C800239AE2 /* ContentView.swift */,
 				DA8B79D92B6909B400239AE2 /* Node.swift */,
 				DA8B79DC2B69193700239AE2 /* BuiltinView.swift */,
+				DA8B79DE2B691D6B00239AE2 /* AnyBuiltinView.swift */,
 			);
 			path = SwiftUIStateSystemTests;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA8B79D32B6905D900239AE2 /* View.swift in Sources */,
+				DA8B79DF2B691D6B00239AE2 /* AnyBuiltinView.swift in Sources */,
 				DA8B79D82B6908C800239AE2 /* ContentView.swift in Sources */,
 				DA8B79D42B69061F00239AE2 /* Button.swift in Sources */,
 				DA8B79DA2B6909B400239AE2 /* Node.swift in Sources */,
