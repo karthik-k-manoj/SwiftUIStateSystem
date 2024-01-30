@@ -11,9 +11,9 @@
 		DA8B79B52B68E27100239AE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79B42B68E27100239AE2 /* ContentView.swift */; };
 		DA8B79B72B68E27200239AE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA8B79B62B68E27200239AE2 /* Assets.xcassets */; };
 		DA8B79BA2B68E27200239AE2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA8B79B92B68E27200239AE2 /* Preview Assets.xcassets */; };
-		DA8B79C32B69048F00239AE2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79C22B69048F00239AE2 /* Button.swift */; };
 		DA8B79CD2B6905A200239AE2 /* SwiftUIStateSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */; };
 		DA8B79D32B6905D900239AE2 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79C02B6903FB00239AE2 /* View.swift */; };
+		DA8B79D42B69061F00239AE2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79C22B69048F00239AE2 /* Button.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,7 +79,6 @@
 			children = (
 				DA8B79B22B68E27100239AE2 /* SwiftUIStateSystemApp.swift */,
 				DA8B79B42B68E27100239AE2 /* ContentView.swift */,
-				DA8B79C22B69048F00239AE2 /* Button.swift */,
 				DA8B79B62B68E27200239AE2 /* Assets.xcassets */,
 				DA8B79B82B68E27200239AE2 /* Preview Content */,
 			);
@@ -98,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				DA8B79C02B6903FB00239AE2 /* View.swift */,
+				DA8B79C22B69048F00239AE2 /* Button.swift */,
 				DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */,
 			);
 			path = SwiftUIStateSystemTests;
@@ -205,7 +205,6 @@
 			files = (
 				DA8B79B52B68E27100239AE2 /* ContentView.swift in Sources */,
 				DA8B79B32B68E27100239AE2 /* SwiftUIStateSystemApp.swift in Sources */,
-				DA8B79C32B69048F00239AE2 /* Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA8B79D32B6905D900239AE2 /* View.swift in Sources */,
+				DA8B79D42B69061F00239AE2 /* Button.swift in Sources */,
 				DA8B79CD2B6905A200239AE2 /* SwiftUIStateSystemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
