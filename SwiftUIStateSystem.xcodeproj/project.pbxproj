@@ -16,6 +16,7 @@
 		DA8B79D42B69061F00239AE2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79C22B69048F00239AE2 /* Button.swift */; };
 		DA8B79D62B69087900239AE2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79D52B69087900239AE2 /* Model.swift */; };
 		DA8B79D82B6908C800239AE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79D72B6908C800239AE2 /* ContentView.swift */; };
+		DA8B79DA2B6909B400239AE2 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79D92B6909B400239AE2 /* Node.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIStateSystemTests.swift; sourceTree = "<group>"; };
 		DA8B79D52B69087900239AE2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DA8B79D72B6908C800239AE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DA8B79D92B6909B400239AE2 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */,
 				DA8B79D52B69087900239AE2 /* Model.swift */,
 				DA8B79D72B6908C800239AE2 /* ContentView.swift */,
+				DA8B79D92B6909B400239AE2 /* Node.swift */,
 			);
 			path = SwiftUIStateSystemTests;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				DA8B79D32B6905D900239AE2 /* View.swift in Sources */,
 				DA8B79D82B6908C800239AE2 /* ContentView.swift in Sources */,
 				DA8B79D42B69061F00239AE2 /* Button.swift in Sources */,
+				DA8B79DA2B6909B400239AE2 /* Node.swift in Sources */,
 				DA8B79CD2B6905A200239AE2 /* SwiftUIStateSystemTests.swift in Sources */,
 				DA8B79D62B69087900239AE2 /* Model.swift in Sources */,
 			);
