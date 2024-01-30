@@ -9,4 +9,11 @@ import Foundation
 
 final class Node {
     var children: [Node] = []
+    var needsRebuild = true
+    
+    func rebuildIfNeeded() {
+        if needsRebuild {
+            
+        }
+    }
 }
