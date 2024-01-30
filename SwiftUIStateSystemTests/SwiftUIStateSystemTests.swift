@@ -13,7 +13,16 @@ final class SwiftUIStateSystemTests: XCTestCase {
         let node = Node()
         v.buildNodeTree(node)
         
-        let button = node.children[0].view as! Button
+        var button: Button {
+            node.children[0].view as! Button
+        }
+        
         XCTAssertEqual(button.title, "0")
+        
+        button.action()
+        node.needsRebuild = true
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(button.title, "1")
     }
 }
