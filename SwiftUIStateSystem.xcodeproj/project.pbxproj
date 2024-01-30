@@ -14,6 +14,7 @@
 		DA8B79CD2B6905A200239AE2 /* SwiftUIStateSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */; };
 		DA8B79D32B6905D900239AE2 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79C02B6903FB00239AE2 /* View.swift */; };
 		DA8B79D42B69061F00239AE2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79C22B69048F00239AE2 /* Button.swift */; };
+		DA8B79D62B69087900239AE2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79D52B69087900239AE2 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		DA8B79C22B69048F00239AE2 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DA8B79CA2B6905A200239AE2 /* SwiftUIStateSystemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftUIStateSystemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIStateSystemTests.swift; sourceTree = "<group>"; };
+		DA8B79D52B69087900239AE2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				DA8B79C02B6903FB00239AE2 /* View.swift */,
 				DA8B79C22B69048F00239AE2 /* Button.swift */,
 				DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */,
+				DA8B79D52B69087900239AE2 /* Model.swift */,
 			);
 			path = SwiftUIStateSystemTests;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 				DA8B79D32B6905D900239AE2 /* View.swift in Sources */,
 				DA8B79D42B69061F00239AE2 /* Button.swift in Sources */,
 				DA8B79CD2B6905A200239AE2 /* SwiftUIStateSystemTests.swift in Sources */,
+				DA8B79D62B69087900239AE2 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
