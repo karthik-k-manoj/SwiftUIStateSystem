@@ -20,6 +20,8 @@ extension View {
             return
         }
         
+        node.view = AnyBuiltinView(self)
+        
         let b = body
         
         if node.children.isEmpty {
