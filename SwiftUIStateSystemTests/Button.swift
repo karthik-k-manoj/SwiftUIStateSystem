@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Button: View {
+struct Button: View, BuiltinView {
     var title: String
     var action: () -> ()
     
@@ -16,7 +16,7 @@ struct Button: View {
         self.action = action
     }
     
-    var body: Never {
-        fatalError()
+    func _buildNodeTree(_ node: Node) {
+        // todo create a UIButton
     }
 }
