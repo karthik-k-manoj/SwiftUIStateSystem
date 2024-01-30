@@ -14,7 +14,19 @@ protocol View {
 
 extension View {
     func buildNodeTree(_ node: Node) {
+        if let b = self as? BuiltinView {
+            node.view = b
+            b._buildNodeTree(node)
+            return
+        }
         
+        let b = body
+        
+        if node.children.isEmpty {
+            node.children = [Node()]
+        }
+        b.buildNodeTree(node.children[0])
+        node.needsRebuild = false
     }
 }
 
