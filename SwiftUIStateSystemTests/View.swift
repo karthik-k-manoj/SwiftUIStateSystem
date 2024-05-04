@@ -13,20 +13,28 @@ protocol View {
 }
 
 extension View {
+    // Not a requirement. This is an implementation detail.
+    // It takes a node and modifies it
     func buildNodeTree(_ node: Node) {
         if let b = self as? BuiltinView {
             node.view = b
-            b._buildNodeTree(node)
+            b._buildNodeTree(node )
             return
         }
         
         node.view = AnyBuiltinView(self)
         
+        // Create a new view value each time we call this.
+        // Check if we actually need to execute the body. For now we do it Node `needsReBuild`. For now that should be fine.
         let b = body
+        
+        // Here we get to see that we are not creating a new node if it's already there.
+        // We will reuse the old node that will also to maintain state
         
         if node.children.isEmpty {
             node.children = [Node()]
         }
+        
         b.buildNodeTree(node.children[0])
         node.needsRebuild = false
     }

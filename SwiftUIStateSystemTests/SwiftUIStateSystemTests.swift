@@ -9,11 +9,14 @@ import XCTest
 
 final class SwiftUIStateSystemTests: XCTestCase {
     func testUpdate() {
+        // construct a content view
         let v = ContentView()
+        // construct a node (root node)
         let node = Node()
+        
         v.buildNodeTree(node)
         
-        var button: Button {
+        var button: Button { 
             node.children[0].view as! Button
         }
         

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Basically erases the generic `Body` type
 struct AnyBuiltinView: BuiltinView {
     private var buildNodeTree: (Node) -> ()
     
