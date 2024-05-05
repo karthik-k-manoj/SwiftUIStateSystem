@@ -143,3 +143,10 @@ final class Node {
 We can get around this generic problem by distinguishing between user-defined `View`s and `BuiltinViews` The `BuiltinView` protocol 
 can have the `buildNodeTree` method as its single requirement, thus avoiding the need for an associated type. This makes it possible to use
 `BuiltinView` as a wrapper around `View` and to store view values in `Node` 
+
+
+// Property Wrapper
+
+We'll look at implementing the `ObservedObject` property wrapper. It's purpose turns out to be quite simple: it observes it's wrapped object 
+by subscribing to the `objectWillChange` publisher of that object. When that publisher emits, the `ObservedObject` invalidates the view it's in,
+regardless of whether the state actually changes.
