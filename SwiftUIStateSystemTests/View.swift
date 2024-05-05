@@ -30,9 +30,11 @@ extension View {
             node.view = b
             b._buildNodeTree(node )
             return
-        }
+        }  
         
         node.view = AnyBuiltinView(self)
+        
+        self.observeObjects(node)
         
         // Create a new view value each time we call this.
         // Check if we actually need to execute the body. For now we do it Node `needsReBuild`. For now that should be fine.
@@ -47,6 +49,23 @@ extension View {
         
         b.buildNodeTree(node.children[0])
         node.needsRebuild = false
+    }
+}
+
+extension View {
+    // In the this methid, we create a `Mirror` of the view and we loop over the mirror's children to check
+    // their types
+    func observeObjects(_ node: Node) {
+        let m = Mirror(reflecting: self)
+        
+        // We can't cast to `ObservedObject` because this type is generic over it's wrapped object's type
+        // So we instead add a non-generic protocol declaring subscription methodm we conform `ObservedObject`
+        // to it and we cast the child to that protocol
+        for child in m.children {
+            guard let observedObject = child.value as? AnyObservedObject else { return }
+            // observed object of this specific view is fetched and called `addDependency` with that view's node
+            observedObject.addDependency(node)
+        }
     }
 }
 
