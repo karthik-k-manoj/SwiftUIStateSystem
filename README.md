@@ -150,3 +150,15 @@ can have the `buildNodeTree` method as its single requirement, thus avoiding the
 We'll look at implementing the `ObservedObject` property wrapper. It's purpose turns out to be quite simple: it observes it's wrapped object 
 by subscribing to the `objectWillChange` publisher of that object. When that publisher emits, the `ObservedObject` invalidates the view it's in,
 regardless of whether the state actually changes.
+
+
+// SwiftUI State Explained: Tuple Views and View Builders 
+
+To construct more complex view hierachies for our tests, we first build tuple views adn view builders
+
+In previous epoise we build `ObservedObject` property wrapper, but we only tested our implementation 
+using a simple setup a single view holding a `ObservedObject` property. Today we wan to look at how SwiftUI
+deals with nested views that may or may not depend on a value from an `ObservedObject`and specifically which 
+`body` is executed and when. We then want to mimic that behaviour in our implementation
+
+ We start with an empty SwiftUI project and we copy our `ContentView` and `Model` into into it
