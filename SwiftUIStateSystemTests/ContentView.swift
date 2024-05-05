@@ -8,7 +8,7 @@
 import Foundation
 
 struct ContentView: View {
-    var model = Model()
+    @ObservedObject var model = Model()
     
     var body: some View {
         Button("\(model.counter)") {

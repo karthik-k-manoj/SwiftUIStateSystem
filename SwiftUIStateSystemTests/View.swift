@@ -12,6 +12,16 @@ protocol View {
     var body: Body { get }
 }
 
+// When we first build a node, we need to find the `ObservedObject`'s in the view and subscribe to the
+// ObservableObject they wrap. We only need to do this for (user defined) View's since our `BuiltInView`'s
+// won't have any observed object
+
+/*
+ In the `builNodeTree` method, we want to inspect the view and find the `ObservedObject`s in it. We
+ call a new method - `observeObjects - to start observing and we pass the view's node in for storing the
+ observation
+ */
+
 extension View {
     // Not a requirement. This is an implementation detail.
     // It takes a node and modifies it
