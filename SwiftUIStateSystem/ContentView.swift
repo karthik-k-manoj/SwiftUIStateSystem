@@ -19,8 +19,12 @@ struct ContentView: View {
     }
     
     var body: some View {
-        Button("\(model.counter)") {
-            model.counter += 1
+        print("ContentView body")
+        return VStack {
+            Button("\(model.counter)") {
+                model.counter += 1
+            }
+            Nested(counter: model.counter)
         }
     }
 }
