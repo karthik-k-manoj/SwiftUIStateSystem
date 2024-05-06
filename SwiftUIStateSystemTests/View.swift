@@ -7,11 +7,19 @@
 
 import Foundation
 
+// If we add the `@ViewBuilder` attribute to the `body` property of the `View` protocol itself
+// we don't have to add it to every implementation separately.
 protocol View {
     associatedtype Body: View
-    var body: Body { get }
+    @ViewBuilder var body: Body { get }
 }
 
+extension View {
+    func debug(_ f: () -> ()) -> some View {
+        f()
+        return self
+    }
+}
 // When we first build a node, we need to find the `ObservedObject`'s in the view and subscribe to the
 // ObservableObject they wrap. We only need to do this for (user defined) View's since our `BuiltInView`'s
 // won't have any observed object

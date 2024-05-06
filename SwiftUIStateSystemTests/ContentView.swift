@@ -19,16 +19,20 @@ struct Nested: View {
     }
 }
 
+
 struct ContentView: View {
     @ObservedObject var model = Model()
-    
+
+    // We cannot add statement other than returning a `View`. Instead we can define a helper method that execute
+    // a closure to `View` and do the increment in a call to that helper
     var body: some View {
-        contentViewBodyCount += 1
-        let button = Button("\(model.counter)") {
+        Button("\(model.counter)") {
             model.counter += 1
         }
         
-        let nested = Nested()
-        return TupleView(button, nested)
+        Nested()
+            .debug {
+                contentViewBodyCount += 1
+            }
     }
 }

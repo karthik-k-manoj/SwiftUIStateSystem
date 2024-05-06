@@ -13,7 +13,7 @@ import XCTest
  In a new test method, we assert that `contentViewBodyCount` and `nestedBodyCount` are both equal to `1`
  */
 final class SwiftUIStateSystemTests: XCTestCase {
-    override class func setUp() {
+    override func setUp() {
         nestedBodyCount = 0
         contentViewBodyCount = 0
     }
@@ -27,7 +27,7 @@ final class SwiftUIStateSystemTests: XCTestCase {
         v.buildNodeTree(node)
         
         var button: Button { 
-            node.children[0].view as! Button
+            node.children[0].children[0].view as! Button
         }
         
         XCTAssertEqual(button.title, "0")
@@ -64,6 +64,56 @@ final class SwiftUIStateSystemTests: XCTestCase {
         XCTAssertEqual(contentViewBodyCount, 2)
         XCTAssertEqual(nestedBodyCount, 1)
     }
+    
+    // rebuilding a view means executing the view's body
+    /*
+     When we add the counter plan old property even without using it in the body the view should rebuild
+     itself every time the value of the property changes. But it doesn't because we don't set it's `needsRebuild` flag to `true`
+     */
+
+    func testChangedNested() {
+        struct Nested: View {
+            var counter: Int
+            var body: some View {
+                nestedBodyCount += 1
+                return Button("Nested Button", action: {})
+            }
+        }
+        
+        struct ContentView: View {
+            @ObservedObject var model = Model()
+            
+            var body: some View {
+                contentViewBodyCount += 1
+                let button = Button("\(model.counter)") {
+                    model.counter += 1
+                }
+                
+                let nested = Nested(counter: model.counter)
+                return TupleView(button, nested)
+            }
+        }
+        
+        let v = ContentView()
+        let node = Node()
+        
+        v.buildNodeTree(node)
+        
+        XCTAssertEqual(contentViewBodyCount, 1)
+        XCTAssertEqual(nestedBodyCount, 1)
+        
+        var button: Button {
+            node.children[0].children[0].view as! Button
+        }
+        
+        button.action()
+        
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(contentViewBodyCount, 2)
+        // Need to fix this
+        XCTAssertEqual(nestedBodyCount, 2)
+    }
 }
 
 /*
@@ -76,3 +126,6 @@ final class SwiftUIStateSystemTests: XCTestCase {
  After processing `BuiltinViews` we check if a node doesn't need a rebuild to see if we can skip it. However we still want
  to forward the call to the view's children so that they have a chance to rebuild if they need to
  */
+
+
+

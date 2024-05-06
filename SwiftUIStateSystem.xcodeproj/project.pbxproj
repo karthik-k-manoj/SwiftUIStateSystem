@@ -11,6 +11,7 @@
 		DA7EC8A92BE74821008BDBFB /* ObservedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7EC8A82BE74821008BDBFB /* ObservedObject.swift */; };
 		DA7EC8AB2BE7CDC5008BDBFB /* Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7EC8AA2BE7CDC5008BDBFB /* Nested.swift */; };
 		DA7EC8AD2BE8A2CE008BDBFB /* TupleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7EC8AC2BE8A2CE008BDBFB /* TupleView.swift */; };
+		DA7EC8AF2BE8C87C008BDBFB /* ViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7EC8AE2BE8C87C008BDBFB /* ViewBuilder.swift */; };
 		DA8B79B32B68E27100239AE2 /* SwiftUIStateSystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79B22B68E27100239AE2 /* SwiftUIStateSystemApp.swift */; };
 		DA8B79B52B68E27100239AE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B79B42B68E27100239AE2 /* ContentView.swift */; };
 		DA8B79B72B68E27200239AE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA8B79B62B68E27200239AE2 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		DA7EC8A82BE74821008BDBFB /* ObservedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedObject.swift; sourceTree = "<group>"; };
 		DA7EC8AA2BE7CDC5008BDBFB /* Nested.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nested.swift; sourceTree = "<group>"; };
 		DA7EC8AC2BE8A2CE008BDBFB /* TupleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TupleView.swift; sourceTree = "<group>"; };
+		DA7EC8AE2BE8C87C008BDBFB /* ViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilder.swift; sourceTree = "<group>"; };
 		DA8B79AF2B68E27100239AE2 /* SwiftUIStateSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIStateSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8B79B22B68E27100239AE2 /* SwiftUIStateSystemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIStateSystemApp.swift; sourceTree = "<group>"; };
 		DA8B79B42B68E27100239AE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				DA8B79C02B6903FB00239AE2 /* View.swift */,
 				DA8B79C22B69048F00239AE2 /* Button.swift */,
+				DA7EC8AE2BE8C87C008BDBFB /* ViewBuilder.swift */,
 				DA7EC8AC2BE8A2CE008BDBFB /* TupleView.swift */,
 				DA8B79CC2B6905A200239AE2 /* SwiftUIStateSystemTests.swift */,
 				DA8B79D52B69087900239AE2 /* Model.swift */,
@@ -251,6 +254,7 @@
 				DA7EC8AD2BE8A2CE008BDBFB /* TupleView.swift in Sources */,
 				DA8B79D62B69087900239AE2 /* Model.swift in Sources */,
 				DA8B79DD2B69193700239AE2 /* BuiltinView.swift in Sources */,
+				DA7EC8AF2BE8C87C008BDBFB /* ViewBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
