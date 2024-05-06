@@ -16,8 +16,6 @@ final class Node {
     
     // Since we have a `rebuildIfNeeded` we have a flag `needsRebuild` and this is set as `true` for the initial pass
     func rebuildIfNeeded() {
-        if needsRebuild {
-            view._buildNodeTree(self)
-        }
+        view._buildNodeTree(self)
     }
 }

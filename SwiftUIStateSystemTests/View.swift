@@ -30,7 +30,23 @@ extension View {
             node.view = b
             b._buildNodeTree(node )
             return
-        }  
+        }
+        
+        /*
+         SwiftUI probably keeps a list of nodes that needs a rebuild and only rebuilds
+         those nodes directly. Our approach going through the enitre tree and skipping
+         the nodes that don't needs to rebuilt - is simpler but less efficient
+         
+         We no longer needs to check `needsRebuild` in the `rebuildIfNeeded` method
+         because we perform that check `_buildNodeTree`
+         */
+        if !node.needsRebuild {
+            for child in node.children {
+                child.rebuildIfNeeded()
+            }
+            
+            return
+        }
         
         node.view = AnyBuiltinView(self)
         
@@ -38,6 +54,7 @@ extension View {
         
         // Create a new view value each time we call this.
         // Check if we actually need to execute the body. For now we do it Node `needsReBuild`. For now that should be fine.
+        // For each parent node, we create the child view and child node in this method
         let b = body
         
         // Here we get to see that we are not creating a new node if it's already there.
@@ -47,7 +64,9 @@ extension View {
             node.children = [Node()]
         }
         
-        b.buildNodeTree(node.children[0])
+        let childNode = node.children[0]
+        // Now child view and child node are used to build it's node
+        b.buildNodeTree(childNode)
         node.needsRebuild = false
     }
 }
