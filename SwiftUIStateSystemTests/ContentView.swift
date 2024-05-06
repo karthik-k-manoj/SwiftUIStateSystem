@@ -7,12 +7,21 @@
 
 import Foundation
 
+struct Nested: View {
+    var body: some View {
+        Button("Nested Button", action: {})
+    }
+}
+
 struct ContentView: View {
     @ObservedObject var model = Model()
     
     var body: some View {
-        Button("\(model.counter)") {
+        let button = Button("\(model.counter)") {
             model.counter += 1
         }
+        
+        let nested = Nested()
+        return TupleView(button, nested)
     }
 }
