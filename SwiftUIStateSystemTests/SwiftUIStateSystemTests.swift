@@ -114,6 +114,54 @@ final class SwiftUIStateSystemTests: XCTestCase {
         // Need to fix this
         XCTAssertEqual(nestedBodyCount, 2)
     }
+    
+    /*
+     We can add a third test with a nested view that depends on the parent view's state,
+     but whose properties don't actually change - for example, a view that only changes when a passed
+     in `counter` parameter exceeds 10. This test shows that view doesnt get rendered when we incremeny
+     only once
+     */
+    func testUnchangedNested() {
+        struct Nested: View {
+            var isLarge = false
+            
+            var body: some View {
+                nestedBodyCount += 1
+                return Button("Nested Button", action: {})
+            }
+        }
+        
+        struct ContentView: View {
+            @ObservedObject var model = Model()
+            
+            var body: some View {
+                Button("\(model.counter)") {
+                    model.counter += 1
+                }
+                
+                Nested(isLarge: model.counter > 10)
+                    .debug {
+                        contentViewBodyCount += 1
+                    }
+            }
+        }
+        
+        let v = ContentView()
+        let node = Node()
+        v.buildNodeTree(node)
+        XCTAssertEqual(contentViewBodyCount, 1)
+        XCTAssertEqual(nestedBodyCount, 1)
+        
+        var button: Button {
+            node.children[0].children[0].view as! Button
+        }
+        
+        button.action()
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(contentViewBodyCount, 2)
+        XCTAssertEqual(nestedBodyCount, 1)
+    }
 }
 
 /*
