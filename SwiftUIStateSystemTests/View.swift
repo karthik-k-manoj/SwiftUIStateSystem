@@ -48,7 +48,8 @@ extension View {
          We no longer needs to check `needsRebuild` in the `rebuildIfNeeded` method
          because we perform that check `_buildNodeTree`
          */
-        if !node.needsRebuild {
+        let shouldRunBody = node.needsRebuild || !self.equalToPrevious(node)
+        if !shouldRunBody {
             for child in node.children {
                 child.rebuildIfNeeded()
             }
@@ -75,9 +76,37 @@ extension View {
         let childNode = node.children[0]
         // Now child view and child node are used to build it's node
         b.buildNodeTree(childNode)
+        node.previousView = self
         node.needsRebuild = false
     }
 }
+/*
+ In the `equalToPrevious` method we first check if the previous view is non-nil and it can be cast to the
+ same type as the current view. If either of check fails we return false
+ 
+ Now we can use reflection to pair up and compare the properties of the two view value. If the labels
+ of a pair of properties don't match - which would be the case for different enum values - we also return false
+ 
+ Then we have to compare two values of pair of properties. We'll implement this comaprison in a separate function
+ but if that function returns false for any pairt of properties, we also return `false` from `equalToPrevious`. Finally if we make it past all the above checks we consider the views to be equal, so we return true
+ */
+
+extension View {
+    func equalToPrevious(_ node: Node) -> Bool {
+        guard let previous = node.previousView as? Self else { return false }
+        let m1 = Mirror(reflecting: self)
+        let m2 = Mirror(reflecting: previous)
+        for pair in zip(m1.children, m2.children) {
+            guard pair.0.label == pair.1.label else { return false }
+            let p1 = pair.0.value
+            let p2 = pair.1.value
+            if !isEqual(p1, p2) { return false }
+        }
+        
+        return true
+    }
+}
+
 
 extension View {
     // In the this methid, we create a `Mirror` of the view and we loop over the mirror's children to check
@@ -101,3 +130,6 @@ extension Never: View {
         fatalError("We should never reach this")
     }
 }
+
+
+

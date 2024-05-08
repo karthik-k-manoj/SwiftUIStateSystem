@@ -13,9 +13,12 @@ final class Node {
     var children: [Node] = []
     var needsRebuild = true
     var view: BuiltinView!
+    var previousView: Any?
     
     // Since we have a `rebuildIfNeeded` we have a flag `needsRebuild` and this is set as `true` for the initial pass
     func rebuildIfNeeded() {
         view._buildNodeTree(self)
     }
 }
+
+// This means we have to store the view's pervious value in the node so taht we can compare the current view to it
