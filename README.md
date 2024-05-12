@@ -486,3 +486,116 @@ Now we can update the models/ counter from the nested view. We remove the button
 the buttons title going from 0 to 1
 
 wo
+
+
+// State Properties
+
+@State property wrapper which is easy to use, but not so easy to implement 
+
+Although it's a basic building block of SwiftUI, it's one of the most complicated components to implement
+
+Let's set up a simple test. We define a view with a `counter` state property and a button that
+show the counter's current value and whose action incrementes the counter
+
+func testSimple() {
+    struct Sample: View {
+        @State var counter = 0
+        
+        var body: some View {
+            Button("\(counter)") {
+                counter +=1
+            }
+            Nested(parentValue: counter)
+        }
+    }
+}
+
+// button.title == "0"
+// button.action()
+// button.title == "1"
+
+Using this view we want to assert that button title updates when we execute the button action.
+For this to work `State` needs to do a couple of things It needs to invalidate the view to trigger
+a rerender when the state cahnges - we won't get around to this today. so we will invalidate the view manually
+for time being
+
+Another job of `State` is to restore the view state during rerenders. When a newview value is created
+it's state properties have the initial value we define in the view. It's up tp the `State` to store its
+value from previous view and restore this value in the new view
+
+// State
+
+We set up the `State` property wrapper:
+
+@propertyWrapper
+struct State<Value> {
+    var wrappedValue: Value
+}
+
+Then we finish writing the test code. For now we need to manually rebuld the node after we execute the button action
+
+func testSimple() {
+    struct Sample: View {
+        @State var counter = 0
+        
+        var body: some View {
+            Button("\(counter)") {
+                counter +=1
+            }
+            Nested(parentValue: counter)
+        }
+    }
+    
+    let s = Sample()
+    let node = Node()
+    s.buildNodeTree(node)
+    
+    var button: Button {
+        node.children[0].view as! Button
+    }
+    
+    XCTAsserEqual(button.title, "0")
+
+    button.action()
+    node.needsRebuild = true // todo this should be automatic
+    node.rebuildIfNeeded()
+    
+    XCTassertEqual(button.title, "1")
+}
+
+The compiler tells us we cannot mutate counter from the button action. This makes sense
+because counter is a stored in a struct a value type and we aren't in a mutating method
+
+
+SwiftUI manages `State`s storage outside of the struct to enable us to mutate it from anywhere 
+(eg via button action or `onAppear`). We can achieve this by wrapping States value in a `Box`
+
+final class Box<Value> {
+    var value: Value
+    
+    init(_ value: Value) {
+        self.value = value
+    }
+}
+
+We convert `wrappedValue` into a computed property that gets and sets the value in the box. Now we don't
+mutate the struct when we assign to wrapepdValue because `Box` is a class `a reference type`). So we can mark
+the setter of the wrappedValue as `nonmutating`
+
+@propertyWrapper
+struct State<Value> {
+    private var box: Box<Value>
+    
+    init(wrappedValue: Value) {
+        self.box = Box(wrappedValue)
+    }
+    
+    var wrappedValue: Value {
+        get { box. value }
+        nonmutaing set { box.value = newValue }
+    }
+}
+
+Our simple test now compiles and passes. We are calling this a simple test because we are not using
+any nested vies. To rerender the sample view, we only have to rexecute its body And without nested views bring
+created we don't haev to worry about state restoration

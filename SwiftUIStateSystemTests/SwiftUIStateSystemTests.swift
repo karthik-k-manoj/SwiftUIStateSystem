@@ -299,6 +299,102 @@ final class SwiftUIStateSystemTests: XCTestCase {
         XCTAssertEqual(nestedBodyCount, 2)
         XCTAssertEqual(button.title, "1")
     }
+    
+    func testSimple() {
+        struct Sample: View {
+            @State var counter = 0
+            
+            var body: some View {
+                Button("\(counter)") {
+                    counter += 1
+                }
+            }
+        }
+        
+        let s = Sample()
+        let node = Node()
+        s.buildNodeTree(node)
+        
+        var button: Button {
+            node.children[0].view as! Button
+        }
+        
+        XCTAssertEqual(button.title, "0")
+        
+        button.action()
+        node.needsRebuild = true
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(button.title, "1")
+    }
+    
+    func testStateWithNested() {
+        struct Nested: View {
+            @State var counter = 0
+            
+            var body: some View {
+                Button("\(counter)") {
+                    counter += 1
+                }
+            }
+        }
+        
+        /*
+         When this Sample view is rebuild, a new Nested view gets created with - by default - the same initial state.
+         This is why we need to restore the state from the view's previous value
+         
+         
+         We refine our test o check the nested view's state. Both button should start with the title 0. When we
+         execute the nested button action and rebuild the view we expect the nested button title to change to 1
+         
+         The test fails; the nested button title is stil 0 after the rebuild. Let's think about how we compare
+         old and new view to determine if we have to rerender a view. because we probably have to do something
+         special for @State properties
+         
+         We're comparing values of the state property like any other property. But later on we will make
+         State explicity invalidate the view if it's value changes so we can actually skip these properties when
+         comparing views
+         
+         Due to `State` bring generic we can't literally check whether a property is `State`. Instead we add a protocol
+         to which we conform only `State` and we check whether a property conforms to that protocol
+         */
+        
+        struct Sample: View {
+            @State var counter = 0
+            
+            var body: some View {
+                Button("\(counter)") {
+                    counter += 1
+                }
+                Nested()
+            }
+        }
+        
+        let s = Sample()
+        let node = Node()
+        s.buildNodeTree(node)
+        
+        var button: Button {
+            node.children[0].children[0].view as! Button
+        }
+        
+        let nestedNode = node.children[0].children[1]
+        
+        var nestedButton: Button {
+            nestedNode.children[0].view as! Button
+        }
+        
+        XCTAssertEqual(button.title, "0")
+        XCTAssertEqual(nestedButton.title, "0")
+        
+        nestedButton.action()
+        nestedNode.needsRebuild = true
+        
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(button.title, "0")
+        XCTAssertEqual(nestedButton.title, "1")
+    }
 }
 
 /*

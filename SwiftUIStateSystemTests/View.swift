@@ -100,6 +100,7 @@ extension View {
             guard pair.0.label == pair.1.label else { return false }
             let p1 = pair.0.value
             let p2 = pair.1.value
+            if p1 is StateProperty { continue }
             if !isEqual(p1, p2) { return false }
         }
         
