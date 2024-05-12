@@ -14,6 +14,6 @@ public struct Binding<Value> {
     
     public var wrappedValue: Value {
         get { get() }
-        set { set(newValue) }
+        nonmutating set { set(newValue) } // we cannot use setter because `struct` is immutable. It does not need to be  mutating. Setter is just changing property of an object
     }
 }

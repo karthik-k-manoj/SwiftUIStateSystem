@@ -212,7 +212,7 @@ final class SwiftUIStateSystemTests: XCTestCase {
         XCTAssertEqual(nestedBodyCount, 1)
     }
     
-    func testBinding() {
+    func testBinding1() {
         struct Nested: View {
             @Binding var counter: Int
             
@@ -253,6 +253,51 @@ final class SwiftUIStateSystemTests: XCTestCase {
         
         XCTAssertEqual(contentViewBodyCount, 2)
         XCTAssertEqual(nestedBodyCount, 2)
+    }
+    
+    
+    func testBinding2() {
+        struct Nested: View {
+            @Binding var counter: Int
+            
+            var body: some View {
+                nestedBodyCount += 1
+                return Button("\(counter)", action: {
+                    counter += 1
+                })
+            }
+        }
+        
+        struct ContentView: View {
+            @ObservedObject var model = Model()
+            
+            var body: some View {
+                // $dollar syntax
+                Nested(counter: $model.counter)
+                    .debug {
+                        contentViewBodyCount += 1
+                    }
+            }
+        }
+        
+        let v = ContentView()
+        let node = Node()
+        v.buildNodeTree(node)
+
+        var button: Button {
+            node.children[0].children[0].view as! Button
+        }
+        
+        XCTAssertEqual(contentViewBodyCount, 1)
+        XCTAssertEqual(nestedBodyCount, 1)
+        XCTAssertEqual(button.title, "0")
+        
+        button.action()
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(contentViewBodyCount, 2)
+        XCTAssertEqual(nestedBodyCount, 2)
+        XCTAssertEqual(button.title, "1")
     }
 }
 
