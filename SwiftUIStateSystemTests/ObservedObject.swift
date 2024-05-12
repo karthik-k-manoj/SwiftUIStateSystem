@@ -25,6 +25,37 @@ struct ObservedObject<ObjectType: ObservableObject>: AnyObservedObject {
         box.object
     }
     
+    // Because of this we can use normal dot syntax to properties. When we say $model it creates a `Wrapper` and `.counter` is turned
+    // into key path (.counter keypath is passed to subscript method and that's what creates the `Binding`
+    // It looks like you are just accessing the property of the model but instead you are going through the wrapper and key path to construct a binding value
+    @dynamicMemberLookup
+    struct Wrapper {
+        var observedObject: ObservedObject<ObjectType>
+        
+        fileprivate init(_ o: ObservedObject<ObjectType>) {
+            observedObject = o
+        }
+        
+        subscript<Value>(dynamicMember keyPath: ReferenceWritableKeyPath<ObjectType, Value>) -> Binding<Value> {
+            Binding {
+                observedObject.wrappedValue[keyPath: keyPath]
+            } set: {
+                observedObject.wrappedValue[keyPath: keyPath] = $0
+            }
+
+        }
+    }
+    
+    /* This doesn't work like this. In client we cannot use `$model` it only works for a state property
+    var projectedValue: Binding<ObjectType> {
+        
+    }
+     */
+    
+    var projectedValue: Wrapper {
+        Wrapper(self)
+    }
+    
     func addDependency(_ node: Node) {
         box.addDependency(node)
     }

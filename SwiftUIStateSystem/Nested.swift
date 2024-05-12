@@ -33,18 +33,28 @@ class Model: ObservableObject {
 
 let nestedModel = Model()
 
+
+/*
+ When we change the observed object it will trigger rerender of the content view. Body will be executed
+ We will then consturct then new Nested value we will also construct a new Binding and it a proeprty wrapper
+ and it will be constructed and that's why Nested is rerendered. if Binding is there it will for sure
+ rerender the nested view because swift UI cannot compare previous and current Binding because binding is
+ just a getter and setter function (atleast) 
+ */
 struct Nested: View {
-    @ObservedObject var model = nestedModel
+    @Binding var counter: Int
     
     var body: some View {
         print("Nested body")
-        return Text("TODO")
+        return Text("Hello")
     }
 }
-
-struct Nested_Previews: PreviewProvider {
-    static var previews: some View {
-        Nested()
-    }
-}
-
+ 
+//struct Nested_Previews: PreviewProvider {
+//    @ObservedObject var model = Model()
+//
+//    static var previews: some View {
+//        Nested(counter: $model.counter)
+//    }
+//}
+//

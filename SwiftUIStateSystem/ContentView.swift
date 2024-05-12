@@ -9,15 +9,17 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @State var counter = 0
+    @ObservedObject var model = Model()
     
     var body: some View {
         print("ContentView body")
         return VStack {
-            Button("\(counter)") {
-                counter += 1
+            Button("\(model.counter)") {
+                //model.counter += 1
+                model.objectWillChange.send() // counter has not changed at all
             }
-            Nested()
+            Nested(counter: $model.counter) // This always created a new Binding and that means
+            // it invalidtes our Nested view and the nested view gets rerendered (body is executed)
         }
     }
 }
@@ -27,3 +29,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+// In principle a `Binding` is really simple it is jsut a wrapper around getter and a setter 
