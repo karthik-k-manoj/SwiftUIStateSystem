@@ -12,10 +12,14 @@ import XCTest
 /*
  In a new test method, we assert that `contentViewBodyCount` and `nestedBodyCount` are both equal to `1`
  */
+
+let nestedModel = Model()
+
 final class SwiftUIStateSystemTests: XCTestCase {
     override func setUp() {
         nestedBodyCount = 0
         contentViewBodyCount = 0
+        nestedModel.counter = 0
     }
     
     func testUpdate() {
@@ -140,6 +144,51 @@ final class SwiftUIStateSystemTests: XCTestCase {
                 }
                 
                 Nested(isLarge: model.counter > 10)
+                    .debug {
+                        contentViewBodyCount += 1
+                    }
+            }
+        }
+        
+        let v = ContentView()
+        let node = Node()
+        v.buildNodeTree(node)
+        XCTAssertEqual(contentViewBodyCount, 1)
+        XCTAssertEqual(nestedBodyCount, 1)
+        
+        var button: Button {
+            node.children[0].children[0].view as! Button
+        }
+        
+        button.action()
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(contentViewBodyCount, 2)
+        XCTAssertEqual(nestedBodyCount, 1)
+    }
+    
+    func testUnchangedNestedWithObservedObject() {
+        struct Nested: View {
+            //  We need to only check if previous and current observed object wrapped observable obejct are the same
+            // as observedObject will only take care of their properties. If there is change in properties
+            // then it is goin to rerender the view it is in
+            @ObservedObject var moedel = nestedModel
+            
+            var body: some View {
+                nestedBodyCount += 1
+                return Button("Nested Button", action: {})
+            }
+        }
+        
+        struct ContentView: View {
+            @ObservedObject var model = Model()
+            
+            var body: some View {
+                Button("\(model.counter)") {
+                    model.counter += 1
+                }
+                
+                Nested()
                     .debug {
                         contentViewBodyCount += 1
                     }

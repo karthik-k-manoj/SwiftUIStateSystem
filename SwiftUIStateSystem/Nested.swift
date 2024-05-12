@@ -27,13 +27,14 @@ import SwiftUI
  take a closer look at what is means for a view to "be different"
  */
 
+class Model: ObservableObject {
+    @Published var counter: Int = 0
+}
+
+let nestedModel = Model()
+
 struct Nested: View {
-    var counter: Int
-    
-    init(counter: Int) {
-        self.counter = counter
-        print("Nested init")
-    }
+    @ObservedObject var model = nestedModel
     
     var body: some View {
         print("Nested body")
@@ -43,7 +44,7 @@ struct Nested: View {
 
 struct Nested_Previews: PreviewProvider {
     static var previews: some View {
-        Nested(counter: 0)
+        Nested()
     }
 }
 

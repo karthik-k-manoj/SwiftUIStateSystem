@@ -63,3 +63,9 @@ fileprivate final class ObservedObjectBox<ObjectType: ObservableObject> {
         }
     }
 }
+
+extension ObservedObject: Equatable {
+    static func ==(l: ObservedObject, r: ObservedObject) -> Bool {
+        l.wrappedValue === r.wrappedValue
+    }
+}
