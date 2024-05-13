@@ -14,6 +14,7 @@ final class Node {
     var needsRebuild = true
     var view: BuiltinView!
     var previousView: Any?
+    var statePropeties: [String: Any] = [:]
     
     // Since we have a `rebuildIfNeeded` we have a flag `needsRebuild` and this is set as `true` for the initial pass
     func rebuildIfNeeded() {

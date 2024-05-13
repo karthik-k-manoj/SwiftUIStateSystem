@@ -60,6 +60,7 @@ extension View {
         node.view = AnyBuiltinView(self)
         
         self.observeObjects(node)
+        self.restoreStateProperties(node)
         
         // Create a new view value each time we call this.
         // Check if we actually need to execute the body. For now we do it Node `needsReBuild`. For now that should be fine.
@@ -76,8 +77,33 @@ extension View {
         let childNode = node.children[0]
         // Now child view and child node are used to build it's node
         b.buildNodeTree(childNode)
+        
+        self.storeStateProperties(node)
         node.previousView = self
         node.needsRebuild = false
+    }
+    
+    // Restore is basically updating the wrapped value
+    func restoreStateProperties(_ node: Node) {
+        let m = Mirror(reflecting: self)
+        for (label, value) in m.children {
+            guard let prop = value as? StateProperty else { continue }
+            guard let propValue = node.statePropeties[label!] else { continue }
+            prop.value = propValue
+        }
+    }
+    
+    /*
+     In this we loop over the the properites that conform to `StateProperty` and we store their values in the node
+     */
+    // store is basically storing it in a dictionary owned by node
+    func storeStateProperties(_ node:  Node) {
+        let m = Mirror(reflecting: self)
+        for (label, value) in m.children {
+            guard let prop = value as? StateProperty else { continue }
+            node.statePropeties[label!] = prop.value
+        }
+        
     }
 }
 /*

@@ -330,6 +330,7 @@ final class SwiftUIStateSystemTests: XCTestCase {
     
     func testStateWithNested() {
         struct Nested: View {
+            var parentValue: Int
             @State var counter = 0
             
             var body: some View {
@@ -364,9 +365,9 @@ final class SwiftUIStateSystemTests: XCTestCase {
             
             var body: some View {
                 Button("\(counter)") {
-                    counter += 1
+                    counter += 1 // captures box and it updates value in that box
                 }
-                Nested()
+                Nested(parentValue: counter)
             }
         }
         
@@ -394,8 +395,26 @@ final class SwiftUIStateSystemTests: XCTestCase {
         
         XCTAssertEqual(button.title, "0")
         XCTAssertEqual(nestedButton.title, "1")
+
+        button.action()
+        node.needsRebuild = true
+        node.rebuildIfNeeded()
+
+        XCTAssertEqual(button.title, "1")
+        XCTAssertEqual(nestedButton.title, "1")
     }
+
 }
+/*
+ This makes the test pass, but we still aren't reconstructing the nested view
+ If we press the outer view's button a new body and new Nested view are created.
+ We should see a test failure if we assert that the nested view holds the same state
+ as it did before the button action was executed.
+ 
+ To our surprise, the test suceeds even though we haven't implemented state restoration,
+ But it makese sense; the nested view isn't rebuilt because the outer button's action doesn't change the neste view.
+ If we pass the state of the outer view into the nested view, we force a rerender of the nested view
+ */
 
 /*
  At some point when we rebuild the node tree after the button press, we end up in `buildNodeTree` on the `ContentView`
