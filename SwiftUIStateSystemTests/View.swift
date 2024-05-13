@@ -40,6 +40,10 @@ extension View {
             return
         }
         
+        // here we assign the current node to globla variable. We do this after we cehck that
+        // we are dealing with a built in view as these views don't have a body
+        
+        currentGlobalBodyNode = node
         /*
          SwiftUI probably keeps a list of nodes that needs a rebuild and only rebuilds
          those nodes directly. Our approach going through the enitre tree and skipping

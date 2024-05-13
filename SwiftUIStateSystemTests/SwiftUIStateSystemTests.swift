@@ -403,8 +403,127 @@ final class SwiftUIStateSystemTests: XCTestCase {
         XCTAssertEqual(button.title, "1")
         XCTAssertEqual(nestedButton.title, "1")
     }
+    
+    func testStateDependency() {
+        struct Nested: View {
+            var parentValue: Int
+            @State var counter = 0
+            
+            var body: some View {
+                Button("\(counter)") {
+                    counter += 1
+                }
+            }
+        }
+        
+        struct Sample: View {
+            @State var counter = 0
+            
+            var body: some View {
+                Button("\(counter)") {
+                    counter += 1 // captures box and it updates value in that box
+                }
+                Nested(parentValue: counter)
+            }
+        }
+        
+        let s = Sample()
+        let node = Node()
+        s.buildNodeTree(node)
+        
+        var button: Button {
+            node.children[0].children[0].view as! Button
+        }
+        
+        let nestedNode = node.children[0].children[1]
+        
+        var nestedButton: Button {
+            nestedNode.children[0].view as! Button
+        }
+        
+        XCTAssertEqual(button.title, "0")
+        XCTAssertEqual(nestedButton.title, "0")
+        
+        nestedButton.action()
+        
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(button.title, "0")
+        XCTAssertEqual(nestedButton.title, "1")
+        
+        button.action()
+        node.rebuildIfNeeded()
+
+        XCTAssertEqual(button.title, "1")
+        XCTAssertEqual(nestedButton.title, "1")
+    }
+    
+    func testStateBindings() {
+        struct Nested: View {
+            @Binding var counter: Int
+            
+            var body: some View {
+                Button("\(counter)") {
+                    counter += 1
+                }
+            }
+        }
+        
+        struct Sample: View {
+            @State var counter = 0
+            var body: some View {
+                Nested(counter: $counter)
+            }
+        }
+        
+        let s = Sample()
+        let node = Node()
+        s.buildNodeTree(node)
+        
+        var nestedButton: Button {
+            node.children[0].children[0].view as! Button
+        }
+        
+        XCTAssertEqual(nestedButton.title, "0")
+        
+        nestedButton.action()
+        node.rebuildIfNeeded()
+        
+        XCTAssertEqual(nestedButton.title, "1")
+    }
+    
 
 }
+// State Dependencies
+
+/*
+ we add dependecy tracking to our state property wrapper to automatically
+ invalidate views
+ 
+ We need to implement automatic invalidation of views that depend on a `State`
+ */
+
+/*
+ Testing View Invalidation
+ 
+ From our test we delete the lines where we manually mark the updated nodes
+ as needing a rebuil.d We also comment out the last assertion so that we are only
+ testing the nested button changes it's title when we click it
+ 
+ State behaves a little bit differenty than `ObservedObject`. When an `ObservedObject` changes
+ it always triggersa  rebuild of the view in which it's declared. But state tracks which views
+ actually use it's value in order to invalidate only those views when the value changes
+ 
+ This means State needs to store reference to the views accessing its value through the getter.
+ So the momeny the value from a `State` is read we need to figure out which view are currenlty
+ executing and add that view as a dependent of the State
+ 
+ We can't mutate the State struct in the getter of it's wrappedValue propety. Instead we need to use
+ a class for storing the dependencies. So we replace the wrapper inner box with a special StateBox
+ */
+
+
+
 /*
  This makes the test pass, but we still aren't reconstructing the nested view
  If we press the outer view's button a new body and new Nested view are created.
